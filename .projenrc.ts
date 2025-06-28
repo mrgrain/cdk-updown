@@ -10,7 +10,7 @@ const project = new TypeScriptProject({
 	authorUrl: "https://moritzkornher.de",
 
 	// Release & Automation
-	// release: true,
+	release: true,
 	automationAppName: "projen-builder",
 	workflowNodeVersion: "lts/-1",
 
