@@ -101,7 +101,7 @@
       "description": "Install project dependencies and update lockfile (non-frozen)",
       "steps": [
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         }
       ]
     },
@@ -110,7 +110,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "yarn install --check-files --frozen-lockfile"
+          "exec": "npm ci"
         }
       ]
     },
@@ -188,13 +188,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=prod,dev,optional --filter=@types/jest,@types/node,jest,projen,ts-jest,ts-node,typescript"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=prod,dev,optional --filter=@aws-cdk/toolkit-lib,@inquirer/select,ansi-colors,cli-table3,yocto-spinner,@types/jest,jest,mrpj,projen,ts-jest,ts-node"
         },
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         },
         {
-          "exec": "yarn upgrade @biomejs/biome @types/jest @types/node constructs jest jest-junit mrpj projen ts-jest ts-node typescript"
+          "exec": "npm update @aws-cdk/toolkit-lib @inquirer/select ansi-colors cli-table3 yocto-spinner @biomejs/biome @types/jest @types/node constructs jest jest-junit mrpj projen ts-jest ts-node typescript"
         },
         {
           "exec": "npx projen"

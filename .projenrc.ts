@@ -1,4 +1,5 @@
 import { logo, TypeScriptProject } from "mrpj";
+import { javascript } from "projen";
 import { BiomeVscode } from "./projenrc/biome";
 
 const project = new TypeScriptProject({
@@ -11,6 +12,7 @@ const project = new TypeScriptProject({
 	// Release & Automation
 	// release: true,
 	automationAppName: "projen-builder",
+	workflowNodeVersion: "lts/-1",
 
 	// Marketing
 	logo: logo.Logo.fromFile("./images/logo.svg", {
@@ -32,13 +34,41 @@ const project = new TypeScriptProject({
 	},
 
 	// Developer Experience
+	packageManager: javascript.NodePackageManager.NPM,
 	biome: true,
 	vscode: true,
 
+	// TypeScript
+	entrypoint: "./lib/main.js",
+	entrypointTypes: "./lib/main.d.ts",
+	tsconfig: {
+		compilerOptions: {
+			isolatedModules: true,
+			isolatedDeclarations: true,
+		} as javascript.TypeScriptCompilerOptions,
+	},
+
 	// Functionality
-	devDeps: ["mrpj@0.2.1"],
+	deps: [
+		"@aws-cdk/toolkit-lib",
+		"@inquirer/select",
+		"ansi-colors",
+		"cli-table3",
+		"yocto-spinner",
+	],
+	peerDeps: ["aws-cdk-lib@^2.174.0"],
 });
 
+// Exports
+project.package.addField("exports", {
+	".": {
+		types: "./lib/main.d.ts",
+		default: "./lib/main.js",
+	},
+});
+
+// VSCode
 new BiomeVscode(project);
+project.vscode?.settings.addSetting("jest.useJest30", true);
 
 project.synth();
