@@ -19,7 +19,6 @@
 /.projen/tasks.json linguist-generated
 /.vscode/settings.json linguist-generated
 /biome.jsonc linguist-generated
-/images/logo.svg linguist-generated
 /images/wordmark-dark.svg linguist-generated
 /images/wordmark-dynamic.svg linguist-generated
 /images/wordmark-light.svg linguist-generated

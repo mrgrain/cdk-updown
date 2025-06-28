@@ -1,6 +1,8 @@
-# ![CDK up ⬆️ / down ⬇️](./images/wordmark-dynamic.svg)
+# ![CDK up / down](./images/wordmark-dynamic.svg)
 
-Self-executable CDK apps
+Self-executable CDK apps.
+
+![Demo](./images/demo.gif)
 
 ## Usage
 

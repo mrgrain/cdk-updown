@@ -118,7 +118,7 @@
       "name": "logo",
       "steps": [
         {
-          "exec": "rsvg-convert -h 1024 images/logo.svg > images/logo.png"
+          "exec": "rsvg-convert -h 1024 ./images/logo.svg > ./images/logo.png"
         },
         {
           "exec": "rsvg-convert -h 1024 images/wordmark.svg > images/wordmark.png"

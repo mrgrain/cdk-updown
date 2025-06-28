@@ -13,17 +13,21 @@ const project = new TypeScriptProject({
 	automationAppName: "projen-builder",
 
 	// Marketing
-	logo: logo.Logo.placeholder(),
+	logo: logo.Logo.fromFile("./images/logo.svg", {
+		height: 100,
+		width: 70,
+	}),
 	wordmarkOptions: {
-		text: "CDK up ⬆️ / down ⬇️",
+		text: "CDK up / down",
 		font: {
 			family: "Palatino",
 		},
 		textPosition: {
+			dx: -15,
 			dy: 10,
 		},
 		size: {
-			width: 1100,
+			width: 810,
 		},
 	},
 

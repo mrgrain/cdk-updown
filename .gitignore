@@ -45,7 +45,6 @@ junit.xml
 !/src/
 /lib
 /dist/
-!/images/logo.svg
 !/images/wordmark.svg
 !/images/wordmark-dark.svg
 !/images/wordmark-light.svg

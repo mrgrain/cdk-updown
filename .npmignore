@@ -21,8 +21,8 @@ dist
 /.idea/
 /.projenrc.js
 tsconfig.tsbuildinfo
-images/logo.svg
-images/logo.png
+./images/logo.svg
+./images/logo.png
 images/wordmark.svg
 images/wordmark.png
 images/wordmark-dark.svg
