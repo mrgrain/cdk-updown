@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { parseArgs } from "node:util";
 import {
 	type AssemblyBuilder,
+	type DeployResult,
+	type DestroyResult,
 	type IIoHost,
 	type IoMessage,
 	type IoRequest,
@@ -40,47 +42,54 @@ class UpDownCli {
 	 */
 	public async run(): Promise<void> {
 		// Run action
-		const command = await this.command();
-		switch (command) {
-			case "up": {
-				await this.up();
-				break;
+		try {
+			const command = await this.command();
+			switch (command) {
+				case "up": {
+					await this.up();
+					break;
+				}
+				case "down": {
+					await this.down();
+					break;
+				}
 			}
-			case "down": {
-				await this.down();
-				break;
-			}
+		} catch {
+			exitCli();
 		}
 	}
 
 	/**
 	 * Up (deploy) your app.
+	 * @returns The deployment result from the CDK toolkit
 	 */
-	public async up(): Promise<void> {
+	public async up(): Promise<DeployResult> {
 		const spinner = loadingSpinner({ text: "Deploying..." }).start();
 		try {
 			await using cx = await this.cdk.synth(await this.app());
 			const deployment = await this.cdk.deploy(cx);
 			spinner.success("Success!");
 			renderDeploymentOutputs(deployment);
+			return deployment;
 		} catch (error: unknown) {
 			spinner.error(String(error));
-			exitCli();
+			throw error;
 		}
 	}
 
 	/**
 	 * Down (destroy) your app.
 	 */
-	public async down(): Promise<void> {
+	public async down(): Promise<DestroyResult> {
 		const spinner = loadingSpinner({ text: "Destroying..." }).start();
 		try {
 			await using cx = await this.cdk.synth(await this.app());
-			await this.cdk.destroy(cx);
+			const deployment = await this.cdk.destroy(cx);
 			spinner.info(paint.cyan("Destroyed!"));
+			return deployment;
 		} catch (error: unknown) {
 			spinner.error(String(error));
-			exitCli();
+			throw error;
 		}
 	}
 

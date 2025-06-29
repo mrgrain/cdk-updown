@@ -62,8 +62,11 @@ Now you have a fully self-contained binary of your app:
 ## Advanced Use Cases
 
 You can also call `up()` and `down()` directly.
-This gives you more control when to deploy or destroy your infrastructure without relying on command-line arguments.
-Will also skip the selection dialog.
+It gives you more control over when to deploy or destroy your infrastructure without relying on command-line arguments.
+
+Both methods return deployment data and throw errors instead of exiting the process.
+They skip the selection dialog, but maintain the terminal output.
+You can use them to build a more customized CLI experience.
 
 ```typescript
 import { updown } from "@mrgrain/cdk-updown";
@@ -71,11 +74,20 @@ import { App, Stack, aws_sns } from "aws-cdk-lib";
 
 declare const builder: AssemblyBuilder;
 
-const cli = updown(builder);
+try {
+  // Create the updown cli
+  const cli = updown(builder);
 
-// Up only
-await cli.up();
+  // Up and get deployment result
+  const deployResult = await cli.up();
+  console.log(`Deployed ${deployResult.stacks.length} stacks`);
+  
+  // Down and get destroy result
+  const destroyResult = await cli.down();
+  console.log(`Destroyed ${destroyResult.stacks.length} stacks`);
 
-// Down only
-await cli.down();
+} catch (error) {
+  console.error('Operation failed:', error.message);
+  // Handle error as needed
+}
 ```

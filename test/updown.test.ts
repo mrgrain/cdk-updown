@@ -1,6 +1,7 @@
 import {
 	type AssemblyBuilder,
 	type DeployResult,
+	type DestroyResult,
 	Toolkit,
 } from "@aws-cdk/toolkit-lib";
 import { type UpDown, updown } from "../src/main";
@@ -56,13 +57,20 @@ describe("UpDown", () => {
 	});
 
 	describe("up", () => {
-		it("should deploy successfully", async () => {
+		it("should deploy successfully and return DeployResult", async () => {
+			// Arrange
+			const mockDeployResult: DeployResult = {
+				stacks: [],
+			};
+			mockToolkit.deploy.mockResolvedValue(mockDeployResult);
+
 			// Act
-			await upDown.up();
+			const result = await upDown.up();
 
 			// Assert
 			expect(mockToolkit.synth).toHaveBeenCalled();
 			expect(mockToolkit.deploy).toHaveBeenCalled();
+			expect(result).toBe(mockDeployResult);
 		});
 
 		it("should handle deployment errors", async () => {
@@ -70,29 +78,26 @@ describe("UpDown", () => {
 			const error = new Error("Deployment failed");
 			mockToolkit.deploy.mockRejectedValue(error);
 
-			// Mock process.exit to prevent test from actually exiting
-			const mockExit = jest.spyOn(process, "exit").mockImplementation();
-
-			// Act
-			await upDown.up();
-
-			// Assert
-			expect(mockExit).toHaveBeenCalledWith();
-			expect(process.exitCode).toBe(1);
-
-			// Cleanup
-			mockExit.mockRestore();
+			// Act & Assert
+			await expect(() => upDown.up()).rejects.toThrow("Deployment failed");
 		});
 	});
 
 	describe("down", () => {
-		it("should destroy successfully", async () => {
+		it("should destroy successfully and return DestroyResult", async () => {
+			// Arrange
+			const mockDestroyResult: DestroyResult = {
+				stacks: [],
+			};
+			mockToolkit.destroy.mockResolvedValue(mockDestroyResult);
+
 			// Act
-			await upDown.down();
+			const result = await upDown.down();
 
 			// Assert
 			expect(mockToolkit.synth).toHaveBeenCalled();
 			expect(mockToolkit.destroy).toHaveBeenCalled();
+			expect(result).toBe(mockDestroyResult);
 		});
 
 		it("should handle destroy errors", async () => {
@@ -100,18 +105,8 @@ describe("UpDown", () => {
 			const error = new Error("Destroy failed");
 			mockToolkit.destroy.mockRejectedValue(error);
 
-			// Mock process.exit to prevent test from actually exiting
-			const mockExit = jest.spyOn(process, "exit").mockImplementation();
-
-			// Act
-			await upDown.down();
-
-			// Assert
-			expect(mockExit).toHaveBeenCalledWith();
-			expect(process.exitCode).toBe(1);
-
-			// Cleanup
-			mockExit.mockRestore();
+			// Act & Assert
+			await expect(() => upDown.down()).rejects.toThrow("Destroy failed");
 		});
 	});
 
@@ -142,6 +137,28 @@ describe("UpDown", () => {
 
 			// Assert
 			expect(spy).toHaveBeenCalled();
+		});
+
+		it("should handle errors", async () => {
+			// Arrange
+			const error = new Error("Deployment failed");
+			mockToolkit.deploy.mockRejectedValue(error);
+
+			// Mock command to return "down"
+			jest.spyOn(upDown as any, "command").mockResolvedValue("up");
+
+			// Mock process.exit to prevent test from actually exiting
+			const mockExit = jest.spyOn(process, "exit").mockImplementation();
+
+			// Act
+			await upDown.run();
+
+			// Assert
+			expect(mockExit).toHaveBeenCalledWith();
+			expect(process.exitCode).toBe(1);
+
+			// Cleanup
+			mockExit.mockRestore();
 		});
 	});
 });
