@@ -13,6 +13,9 @@ const project = new TypeScriptProject({
 	release: true,
 	automationAppName: "projen-builder",
 	workflowNodeVersion: "lts/-1",
+	npmIgnoreOptions: {
+		ignorePatterns: ["/images"],
+	},
 
 	// Marketing
 	logo: logo.Logo.fromFile("./images/logo.svg", {
@@ -56,7 +59,11 @@ const project = new TypeScriptProject({
 		"cli-table3",
 		"yocto-spinner",
 	],
+	devDeps: ["aws-cdk-lib"],
 	peerDeps: ["aws-cdk-lib@^2.174.0"],
+	peerDependencyOptions: {
+		pinnedDevDependency: false,
+	},
 });
 
 // Exports

@@ -4,6 +4,8 @@ Self-executable CDK apps.
 
 ![Demo](./images/demo.gif)
 
+Ever tried to quickly demo some infrastructure code? You write your CDK app, then switch to the terminal for `cdk deploy`, then back again for `cdk destroy`. It's annoying. Sharing examples is even worse - people need the CDK CLI installed and configured just to try your code. CDK up/down fixes this by making your apps self-executable. Your code becomes the deployment tool. One command to deploy and clean up. Perfect for quick prototyping, live demos, and tutorials where you don't want setup friction getting in the way.
+
 ## Installation
 
 Install the package using your preferred package manager:
