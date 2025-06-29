@@ -14,7 +14,7 @@ const project = new TypeScriptProject({
 	automationAppName: "projen-builder",
 	workflowNodeVersion: "lts/-1",
 	npmIgnoreOptions: {
-		ignorePatterns: ["/images"],
+		ignorePatterns: ["/images", "biome.jsonc"],
 	},
 
 	// Marketing
