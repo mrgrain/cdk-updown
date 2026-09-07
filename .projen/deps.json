@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@biomejs/biome",
-      "version": "^2",
+      "version": "^2.5",
       "type": "build"
     },
     {
@@ -11,7 +11,7 @@
     },
     {
       "name": "@types/node",
-      "version": "ts5.8",
+      "version": "ts5.9",
       "type": "build"
     },
     {
@@ -34,7 +34,7 @@
     },
     {
       "name": "jest-junit",
-      "version": "^16",
+      "version": "^17",
       "type": "build"
     },
     {
@@ -55,7 +55,7 @@
     },
     {
       "name": "typescript",
-      "version": "5.8.x",
+      "version": "5.9.x",
       "type": "build"
     },
     {
